@@ -1,0 +1,16 @@
+listen_addr: ":8080"
+database_url: "postgres://fuse:fuse@localhost:5432/fuse?sslmode=disable"
+
+# Upstream AI API Fuse proxies to. Agents point at Fuse instead of this URL.
+upstream_base_url: "https://api.openai.com"
+# Set via env FUSE_UPSTREAM_API_KEY instead of committing secrets.
+# upstream_api_key: ""
+
+# Soft = alert only. Hard = block the request.
+default_soft_usd: 5
+default_hard_usd: 25
+
+# Optional alerts
+# slack_webhook_url: ""
+# smtp_from: ""
+# smtp_addr: ""
