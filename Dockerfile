@@ -5,10 +5,12 @@ WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/fuse ./cmd/fuse
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/fuse ./cmd/fuse \
+ && CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/fuse-demogen ./cmd/fuse-demogen
 
 FROM gcr.io/distroless/static-debian12:nonroot
 COPY --from=build /out/fuse /fuse
+COPY --from=build /out/fuse-demogen /fuse-demogen
 COPY config.example.yaml /config.example.yaml
 EXPOSE 8080
 ENTRYPOINT ["/fuse"]

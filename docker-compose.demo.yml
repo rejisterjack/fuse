@@ -1,0 +1,7 @@
+# Use with: docker compose -f docker-compose.yml -f docker-compose.demo.yml --profile demo up --build
+services:
+  fuse:
+    environment:
+      FUSE_UPSTREAM_BASE_URL: http://demogen:18080
+    depends_on:
+      - demogen

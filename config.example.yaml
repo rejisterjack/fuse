@@ -3,6 +3,8 @@ database_url: "postgres://fuse:fuse@localhost:5432/fuse?sslmode=disable"
 
 # Upstream AI API Fuse proxies to. Agents point at Fuse instead of this URL.
 upstream_base_url: "https://api.openai.com"
+# openai | anthropic | openai_compatible
+upstream_provider: "openai"
 # Set via env FUSE_UPSTREAM_API_KEY instead of committing secrets.
 # upstream_api_key: ""
 
@@ -14,3 +16,4 @@ default_hard_usd: 25
 # slack_webhook_url: ""
 # smtp_from: ""
 # smtp_addr: ""
+# smtp_to: ""

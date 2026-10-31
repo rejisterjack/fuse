@@ -17,13 +17,26 @@ services:
     build: .
     environment:
       FUSE_DATABASE_URL: postgres://fuse:fuse@postgres:5432/fuse?sslmode=disable
-      FUSE_UPSTREAM_API_KEY: ${FUSE_UPSTREAM_API_KEY:-}
+      FUSE_UPSTREAM_API_KEY: ${FUSE_UPSTREAM_API_KEY:-sk-demo}
+      FUSE_UPSTREAM_BASE_URL: ${FUSE_UPSTREAM_BASE_URL:-https://api.openai.com}
       FUSE_SLACK_WEBHOOK_URL: ${FUSE_SLACK_WEBHOOK_URL:-}
     depends_on:
       postgres:
         condition: service_healthy
     ports:
       - "8080:8080"
+
+  demogen:
+    profiles: ["demo"]
+    build: .
+    entrypoint: ["/fuse-demogen"]
+    command:
+      - "-mock-addr=:18080"
+      - "-fuse-url=http://fuse:8080"
+      - "-agent=demo"
+      - "-interval=2s"
+    ports:
+      - "18080:18080"
 
 volumes:
   pgdata:

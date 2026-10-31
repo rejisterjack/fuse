@@ -15,6 +15,7 @@ import (
 	"github.com/rejisterjack/fuse/internal/budget"
 	"github.com/rejisterjack/fuse/internal/config"
 	"github.com/rejisterjack/fuse/internal/dashboard"
+	"github.com/rejisterjack/fuse/internal/provider"
 	"github.com/rejisterjack/fuse/internal/proxy"
 	"github.com/rejisterjack/fuse/internal/store"
 )
@@ -31,34 +32,50 @@ func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
 
-	db, err := store.Connect(ctx, cfg.DatabaseURL)
-	if err != nil {
-		log.Printf("warning: postgres unavailable (%v); continuing with in-memory budgets only", err)
-	} else {
-		defer db.Close()
+	var db *store.Store
+	if cfg.DatabaseURL != "" {
+		db, err = store.Connect(ctx, cfg.DatabaseURL)
+		if err != nil {
+			log.Printf("warning: postgres unavailable (%v); continuing with in-memory budgets only", err)
+			db = nil
+		} else {
+			defer db.Close()
+		}
 	}
 
 	tracker := budget.NewTracker(cfg.DefaultSoftUSD, cfg.DefaultHardUSD)
-	notifier := &alert.Notifier{SlackWebhookURL: cfg.SlackWebhookURL}
+	tracker.SetStore(db)
 
-	proxyHandler, err := proxy.New(cfg.UpstreamBaseURL, cfg.UpstreamAPIKey, tracker)
+	notifier := &alert.Notifier{
+		SlackWebhookURL: cfg.SlackWebhookURL,
+		SMTPAddr:        cfg.SMTPAddr,
+		SMTPFrom:        cfg.SMTPFrom,
+		SMTPTo:          cfg.SMTPTo,
+		Store:           db,
+	}
+
+	prov := provider.Lookup(cfg.UpstreamProvider)
+	proxyHandler, err := proxy.New(cfg.UpstreamBaseURL, cfg.UpstreamAPIKey, tracker, prov)
 	if err != nil {
 		log.Fatalf("proxy: %v", err)
 	}
+	proxyHandler.Store = db
 	proxyHandler.OnSoftHit = notifier.SoftHit
+	proxyHandler.OnHardHit = notifier.HardHit
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"ok":true}`))
 	})
-	(&dashboard.Pages{Tracker: tracker}).Mount(mux)
+	(&dashboard.Pages{Tracker: tracker, Store: db}).Mount(mux)
 	mux.Handle("/v1/", proxyHandler)
 	mux.Handle("/v1", proxyHandler)
 
 	srv := &http.Server{Addr: cfg.ListenAddr, Handler: mux}
 	go func() {
-		fmt.Fprintf(os.Stderr, "fuse listening on %s (upstream %s)\n", cfg.ListenAddr, cfg.UpstreamBaseURL)
+		fmt.Fprintf(os.Stderr, "fuse listening on %s (upstream %s provider=%s)\n",
+			cfg.ListenAddr, cfg.UpstreamBaseURL, prov.Name())
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatal(err)
 		}
