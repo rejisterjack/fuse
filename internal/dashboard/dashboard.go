@@ -19,7 +19,7 @@ type Pages struct {
 
 // Mount registers dashboard routes on mux.
 func (p *Pages) Mount(mux *http.ServeMux) {
-	mux.HandleFunc("GET /", p.index)
+	mux.HandleFunc("GET /{$}", p.index)
 	mux.HandleFunc("GET /api/spend", p.spend)
 	mux.HandleFunc("GET /api/spend/series", p.series)
 	mux.HandleFunc("GET /api/spend/by-agent", p.byAgent)

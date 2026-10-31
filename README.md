@@ -16,7 +16,7 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-Point your agent at `http://localhost:8080` instead of the real API base URL. Optionally send:
+Point your agent at `http://localhost:18088` (Compose publishes container `:8080` there) instead of the real API base URL. Optionally send:
 
 - `X-Fuse-Agent`
 - `X-Fuse-User`
@@ -24,7 +24,7 @@ Point your agent at `http://localhost:8080` instead of the real API base URL. Op
 
 Or mint a scoped `fuse_…` key from the dashboard and use it as `Authorization: Bearer fuse_…`.
 
-Open the dashboard at [http://localhost:8080](http://localhost:8080) to view spend charts, edit budget rules, and manage keys.
+Open the dashboard at [http://localhost:18088](http://localhost:18088) to view spend charts, edit budget rules, and manage keys.
 
 ## Local without Docker
 

@@ -24,7 +24,8 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - "8080:8080"
+      # Host 18088 avoids clashing with other local stacks on :8080; container still listens on 8080.
+      - "18088:8080"
 
   demogen:
     profiles: ["demo"]
@@ -35,8 +36,8 @@ services:
       - "-fuse-url=http://fuse:8080"
       - "-agent=demo"
       - "-interval=2s"
-    ports:
-      - "18080:18080"
+    expose:
+      - "18080"
 
 volumes:
   pgdata:
