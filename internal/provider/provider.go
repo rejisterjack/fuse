@@ -20,12 +20,13 @@ type Provider interface {
 	ParseStreamUsage(sseBody []byte) (Usage, bool)
 }
 
-// Lookup returns a provider by name. openai_compatible aliases openai.
+// Lookup returns a provider by name.
+// openai_compatible, google, and groq alias the OpenAI request/usage shape.
 func Lookup(name string) Provider {
 	switch strings.ToLower(strings.TrimSpace(name)) {
 	case "anthropic":
 		return Anthropic{}
-	case "openai_compatible", "openai", "":
+	case "openai_compatible", "openai", "google", "groq", "":
 		return OpenAI{}
 	default:
 		return OpenAI{}
