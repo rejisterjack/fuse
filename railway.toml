@@ -3,6 +3,7 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
+# Override per-service on Railway: fuse uses this; demogen uses /fuse-demogen.
 startCommand = "/fuse -config /config.example.yaml"
 healthcheckPath = "/healthz"
 healthcheckTimeout = 30

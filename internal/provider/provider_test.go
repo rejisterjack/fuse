@@ -56,4 +56,10 @@ func TestLookup(t *testing.T) {
 	if Lookup("openai_compatible").Name() != "openai" {
 		t.Fatal("alias")
 	}
+	if Lookup("google").Name() != "openai" {
+		t.Fatal("google alias")
+	}
+	if Lookup("groq").Name() != "openai" {
+		t.Fatal("groq alias")
+	}
 }
