@@ -68,7 +68,11 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"ok":true}`))
 	})
-	(&dashboard.Pages{Tracker: tracker, Store: db}).Mount(mux)
+	(&dashboard.Pages{
+		Tracker: tracker,
+		Store:   db,
+		Demo:    os.Getenv("FUSE_DEMO") == "true" || os.Getenv("FUSE_DEMO") == "1",
+	}).Mount(mux)
 	mux.Handle("/v1/", proxyHandler)
 	mux.Handle("/v1", proxyHandler)
 

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/rejisterjack/fuse/internal/auth"
@@ -15,6 +16,8 @@ import (
 type Pages struct {
 	Tracker *budget.Tracker
 	Store   *store.Store
+	// Demo is true for the public fake-traffic host (no real API key).
+	Demo bool
 }
 
 // Mount registers dashboard routes on mux.
@@ -214,8 +217,16 @@ func (p *Pages) revokeKey(w http.ResponseWriter, r *http.Request) {
 
 func (p *Pages) index(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	_, _ = w.Write([]byte(indexHTML))
+	html := indexHTML
+	if p.Demo {
+		html = strings.Replace(indexHTML, "<body>", "<body>\n"+demoBanner, 1)
+	}
+	_, _ = w.Write([]byte(html))
 }
+
+const demoBanner = `<div style="background:#fef3c7;border-bottom:1px solid #f59e0b;color:#78350f;padding:.65rem 1rem;text-align:center;font-size:.9rem">
+  Public demo — fake agent traffic only. Do not put real API keys or secrets here. Self-host with Docker Compose for production.
+</div>`
 
 const indexHTML = `<!doctype html>
 <html lang="en">

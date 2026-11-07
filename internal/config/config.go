@@ -56,6 +56,13 @@ func Load(path string) (Config, error) {
 	if v := os.Getenv("FUSE_SMTP_FROM"); v != "" {
 		cfg.SMTPFrom = v
 	}
+	if v := os.Getenv("FUSE_LISTEN_ADDR"); v != "" {
+		cfg.ListenAddr = v
+	}
+	if v := os.Getenv("PORT"); v != "" {
+		// Railway (and similar) inject PORT; bind all interfaces.
+		cfg.ListenAddr = ":" + v
+	}
 	if cfg.ListenAddr == "" {
 		cfg.ListenAddr = ":8080"
 	}

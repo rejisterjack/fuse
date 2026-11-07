@@ -8,6 +8,10 @@ Agent cost circuit breaker.
 
 ![Demo: runaway agent blocked](docs/demo.gif)
 
+## Public demo
+
+[fuse.rejisterjack.com](https://fuse.rejisterjack.com) is a **Railway demo** with **fake agent traffic only** (`FUSE_DEMO=true`). No real provider API key is configured. The dashboard has no auth — treat it as a shared playground. Self-host with Compose (below) for real budgets and keys.
+
 ## Quick start
 
 ```bash
