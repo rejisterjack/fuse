@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "https://fuse-production-e195.up.railway.app/$1"
+    }
+  ]
+}
