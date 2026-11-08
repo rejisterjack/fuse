@@ -34,8 +34,8 @@ No Neon-specific SDK is required — Fuse uses `pgx`.
 
 Deploy the Dockerfile as two free web services in the same region:
 
-1. **fuse** — start command `/fuse -config /config.example.yaml`. Set `FUSE_DEMO=true`, `FUSE_DATABASE_URL` (Neon), `FUSE_UPSTREAM_PROVIDER=openai`, `FUSE_UPSTREAM_API_KEY=sk-demo`, and `FUSE_UPSTREAM_BASE_URL=http://fuse-demogen:10000` (Render private network; both services listen on `$PORT`, typically `10000`).
-2. **fuse-demogen** — docker command `/fuse-demogen -mock-addr=:10000 -fuse-url=http://fuse:10000 -agent=demo -interval=3s`.
+1. **fuse** — start command `/fuse -config /config.example.yaml`. Set `FUSE_DEMO=true`, `FUSE_DATABASE_URL` (Neon), `FUSE_UPSTREAM_PROVIDER=openai`, `FUSE_UPSTREAM_API_KEY=sk-demo`, and `FUSE_UPSTREAM_BASE_URL` to the **public** demogen URL (free web services cannot receive private-network traffic).
+2. **fuse-demogen** — docker command `/fuse-demogen -agent=demo -interval=3s` (honors `$PORT` for the mock). Set `FUSE_DEMOGEN_FUSE_URL` to the public Fuse URL.
 3. Optionally put a Vercel rewrite in `edge/` in front of the Fuse public URL for `fuse.rejisterjack.com`.
 
 Do not put a real provider API key on the public demo.

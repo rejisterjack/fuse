@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "https://fuse-production-e195.up.railway.app/$1"
+      "destination": "https://fuse-jf62.onrender.com/$1"
     }
   ]
 }
