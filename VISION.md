@@ -49,7 +49,7 @@ Runaway costs are one of the top nine challenges in AI agent development. There 
 - One command: `docker compose up -d`
 - The developer points their agent at the Fuse proxy URL instead of the real API
 - No data leaves the developer's own infrastructure
-- Demo instance on Railway uses fake agent traffic only
+- Demo instance on Render uses fake agent traffic only
 
 ## Tech stack
 
@@ -80,6 +80,6 @@ Runaway costs are one of the top nine challenges in AI agent development. There 
 ## Deployment
 
 - Docker Compose for the self-hosted version (includes Go proxy and Postgres)
-- Railway for the demo instance, using fake traffic only
+- Render for the demo instance, using fake traffic only
 - No Vercel needed; the dashboard is served by the Go process itself
 - No Neon needed for self-hosting; the Docker Compose Postgres is sufficient

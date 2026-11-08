@@ -60,7 +60,7 @@ func Load(path string) (Config, error) {
 		cfg.ListenAddr = v
 	}
 	if v := os.Getenv("PORT"); v != "" {
-		// Railway (and similar) inject PORT; bind all interfaces.
+		// Render/Railway (and similar) inject PORT; bind all interfaces.
 		cfg.ListenAddr = ":" + v
 	}
 	if cfg.ListenAddr == "" {
