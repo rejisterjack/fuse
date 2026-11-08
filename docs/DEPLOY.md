@@ -30,14 +30,12 @@ Self-host Compose Postgres is enough for most installs. For hosted Postgres (Neo
 
 No Neon-specific SDK is required — Fuse uses `pgx`.
 
-## Railway
+## Render (public demo)
 
-`railway.toml` builds the Dockerfile and health-checks `/healthz`.
+Deploy the Dockerfile as two free web services in the same region:
 
-For a fake-traffic demo on Railway:
+1. **fuse** — start command `/fuse -config /config.example.yaml`. Set `FUSE_DEMO=true`, `FUSE_DATABASE_URL` (Neon), `FUSE_UPSTREAM_PROVIDER=openai`, `FUSE_UPSTREAM_API_KEY=sk-demo`, and `FUSE_UPSTREAM_BASE_URL=http://fuse-demogen:10000` (Render private network; both services listen on `$PORT`, typically `10000`).
+2. **fuse-demogen** — docker command `/fuse-demogen -mock-addr=:10000 -fuse-url=http://fuse:10000 -agent=demo -interval=3s`.
+3. Optionally put a Vercel rewrite in `edge/` in front of the Fuse public URL for `fuse.rejisterjack.com`.
 
-1. Deploy service **fuse** with `FUSE_DATABASE_URL` (Neon or Railway Postgres) and `FUSE_UPSTREAM_BASE_URL` pointing at the demogen service private URL.
-2. Deploy service **demogen** with start command `/fuse-demogen -mock-addr=:18080 -fuse-url=http://fuse.railway.internal:8080` (adjust host to your private networking).
-3. Do not put a real provider API key on the demo; use `sk-demo`.
-
-Use fake traffic only on public demos.
+Do not put a real provider API key on the public demo.

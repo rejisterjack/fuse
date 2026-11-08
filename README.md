@@ -10,7 +10,7 @@ Agent cost circuit breaker.
 
 ## Public demo
 
-[fuse.rejisterjack.com](https://fuse.rejisterjack.com) is a **Railway demo** with **fake agent traffic only** (`FUSE_DEMO=true`). No real provider API key is configured. The dashboard has no auth — treat it as a shared playground. Self-host with Compose (below) for real budgets and keys.
+[fuse.rejisterjack.com](https://fuse.rejisterjack.com) is a **Render demo** with **fake agent traffic only** (`FUSE_DEMO=true`). No real provider API key is configured. The dashboard has no auth — treat it as a shared playground. Self-host with Compose (below) for real budgets and keys.
 
 ## Quick start
 
@@ -57,7 +57,7 @@ docker compose -f docker-compose.yml -f docker-compose.demo.yml --profile demo u
 
 - [Limitations](docs/LIMITATIONS.md) — cost estimates, latency, first-call risk
 - [Providers](docs/PROVIDERS.md) — adapters and how to add one
-- [Deploy](docs/DEPLOY.md) — Compose, Neon, Railway demo
+- [Deploy](docs/DEPLOY.md) — Compose, Neon, Render demo
 
 ## License
 
