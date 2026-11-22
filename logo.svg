@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <radialGradient id="fs-bg" cx="50%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#2a1215" />
+      <stop offset="60%" stop-color="#14080a" />
+      <stop offset="100%" stop-color="#080304" />
+    </radialGradient>
+    <linearGradient id="fs-stroke" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(244, 63, 94, 0.6)" />
+      <stop offset="50%" stop-color="rgba(249, 115, 22, 0.25)" />
+      <stop offset="100%" stop-color="rgba(244, 63, 94, 0.10)" />
+    </linearGradient>
+    <linearGradient id="fs-coil" x1="120" y1="120" x2="380" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fb7185" />
+      <stop offset="40%" stop-color="#f43f5e" />
+      <stop offset="80%" stop-color="#fb923c" />
+      <stop offset="100%" stop-color="#facc15" />
+    </linearGradient>
+    <filter id="fs-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="14" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#fs-bg)" stroke="url(#fs-stroke)" stroke-width="6" />
+  <circle cx="256" cy="256" r="130" fill="#f43f5e" opacity="0.12" filter="url(#fs-glow)" />
+
+  <g transform="translate(0, -4)">
+    <!-- Circuit Breaker Housing Frame -->
+    <rect x="160" y="100" width="192" height="300" rx="36" fill="none" stroke="url(#fs-coil)" stroke-width="12" />
+
+    <!-- Terminal Connection Nodes -->
+    <line x1="256" y1="64" x2="256" y2="100" stroke="#fb7185" stroke-width="12" stroke-linecap="round" />
+    <line x1="256" y1="400" x2="256" y2="436" stroke="#fb923c" stroke-width="12" stroke-linecap="round" />
+
+    <!-- Kinetic Circuit Trip Contact Filament -->
+    <path d="M 216 160 L 296 210 L 216 270 L 296 320" fill="none" stroke="url(#fs-coil)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Emergency Cost Surge Disconnect Core -->
+    <circle cx="256" cy="240" r="26" fill="#facc15" filter="url(#fs-glow)" />
+    <circle cx="256" cy="240" r="12" fill="#ffffff" />
+  </g>
+</svg>
+

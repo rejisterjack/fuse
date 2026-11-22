@@ -59,6 +59,10 @@ docker compose -f docker-compose.yml -f docker-compose.demo.yml --profile demo u
 - [Providers](docs/PROVIDERS.md) — adapters and how to add one
 - [Deploy](docs/DEPLOY.md) — Compose, Neon, Render demo
 
+## CI/CD
+
+Workflows run only on a push to `main`. A pull request, any other branch, a tag push, a schedule, and a manual run do not start CI or CD. The only deploy target is production. Connect Render and the Vercel rewrite to `main` and leave preview and pull-request deploys off. A push to `main` runs checks only. There is no package publish workflow.
+
 ## License
 
 MIT

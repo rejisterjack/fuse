@@ -1,5 +1,7 @@
 # Deploy
 
+CI runs only on a push to `main`. Connect Render and the Vercel rewrite to `main`. Preview and pull-request deploys stay off. The Vercel project builds only when the git ref is `main`, and that build is production.
+
 ## Docker Compose (default self-host)
 
 ```bash
